@@ -1,32 +1,54 @@
 #include <iostream>
-#include <cmath> 
+#include <vector>
+using namespace std;
+
+// процедура для вывода матрицы (не возвращает результат)
+void printMatrix(const vector<vector<int>>& matrix) {
+    cout << "Исходная матрица:" << endl;
+    for (const auto& row : matrix) {
+        for (int element : row) {
+            cout << element << "\t";
+        }
+        cout << endl;
+    }
+}
+
+// функция для вычисления сумм положительных элементов каждого столбца
+vector<int> calculateColumnSums(const vector<vector<int>>& matrix) {
+    if (matrix.empty()) return {};
+    
+    int rows = matrix.size();
+    int cols = matrix[0].size();
+    vector<int> columnSums(cols, 0); // Инициализируем нулями
+
+    for (int col = 0; col < cols; ++col) {
+        for (int row = 0; row < rows; ++row) {
+            if (matrix[row][col] > 0) {
+                columnSums[col] += matrix[row][col];
+            }
+        }
+    }
+    return columnSums;
+}
 
 int main() {
-    // три массива
-    int X[] = {5, -2, -1, -6, 4};
-    int Y[] = {-3, 70, 2, -1};    
-    int Z[] = {-10, 14, -9};       
+    // Исходная матрица (3x4)
+    vector<vector<int>> matrix = {
+        {1, -2, 3, 4},
+        {-5, 6, -7, 8},
+        {9, 10, -11, 12}
+    };
 
-    // суммы модулей для каждого массива
-    int sumX = 0;
-    for(int num : X) {
-        sumX += abs(num);
+    // процедура
+    printMatrix(matrix);
+
+    // функция
+    vector<int> sums = calculateColumnSums(matrix);
+    cout << "\nСуммы положительных элементов по столбцам:" << endl;
+    for (int sum : sums) {
+        cout << sum << "\t";
     }
-
-    int sumY = 0;
-    for(int num : Y) {
-        sumY += abs(num);
-    }
-
-    int sumZ = 0;
-    for(int num : Z) {
-        sumZ += abs(num);
-    }
-
-    // результаты
-    std::cout << "Сумма модулей массива X: " << sumX << std::endl;
-    std::cout << "Сумма модулей массива Y: " << sumY << std::endl;
-    std::cout << "Сумма модулей массива Z: " << sumZ << std::endl;
+    cout << endl;
 
     return 0;
 }
